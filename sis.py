@@ -12,7 +12,7 @@ b = 0.2
 g = 0.2
 max_time = 500
 
-G = erdos_renyi_graph(n,p)
+G = read_edgelist("test.edgelist") # erdos_renyi_graph(n,p)
 
 # some properties
 # print("node degree clustering")

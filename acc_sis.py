@@ -13,7 +13,7 @@ b = 0.2
 g = 0.2
 max_time = 500
 
-G = erdos_renyi_graph(num,p)
+G = read_edgelist("test.edgelist") # erdos_renyi_graph(num,p)
 
 immunized = set()
 remaining = G.copy().nodes()
