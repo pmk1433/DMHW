@@ -7,11 +7,11 @@ import pdb;
 p = 0.5 # 25% probability
 
 
-b = float(sys.argv[2]) # 0.2
-g = float(sys.argv[3]) # 0.2
-max_time = int(sys.argv[4]) # 500
+b = 0.2
+g = 0.2
+max_time = 500
 
-G = read_edgelist(str(sys.argv[1])) # read_edgelist("test.edgelist") # erdos_renyi_graph(n,p)
+G = barabasi_albert_graph(100, 1)
 
 # some properties
 # print("node degree clustering")

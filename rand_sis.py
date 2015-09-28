@@ -3,17 +3,16 @@ import random
 import sys
 import pdb;
 
-num = 100 # 100 nodes
 
 p = 0.25 # 25% probability
 
-budget = 10
+budget = int(sys.argv[1])
 
 b = 0.2
 g = 0.2
 max_time = 500
 
-G = read_edgelist("test.edgelist") # erdos_renyi_graph(num,p)
+G = read_edgelist(str(sys.argv[2])) # read_edgelist("test.edgelist") # erdos_renyi_graph(n,p)
 
 immunized = set()
 remaining = G.copy().nodes()
@@ -30,10 +29,13 @@ print "Immunized: ", immunized
 print "Done RAND", "\nRAND Done"
 
 N = G.nodes()
-status_list = [True] * num # Initally all nodes are considered infected.
+status_dict = {}
+
+for nodecode in N:
+  status_dict[nodecode] = True # Initally all nodes are considered infected.
 
 for imm in immunized:
-  status_list[imm] = 'IMMUNE' # Immunized nodes cannot become infected
+  status_dict[imm] = 'IMMUNE' # Immunized nodes cannot become infected
 
 with open("rand_sis_results.csv","w+") as f:
   for i in xrange(max_time):
@@ -44,26 +46,26 @@ with open("rand_sis_results.csv","w+") as f:
 
       # For infected nodes, recover with
       # probability gamma
-      if status_list[node] == True:
+      if status_dict[node] == True:
         if random.random() <= g:
-          status_list[node] = False
+          status_dict[node] = False
 
       # For healthy nodes, get infected by each infected 
       # neighbor with probability b
-      elif status_list[node] == False:
+      elif status_dict[node] == False:
         for neighbor in all_neighbors(G,node):
           if random.random() <= b:
-            status_list[node] = True
+            status_dict[node] = True
       else:
         print "Node is IMMUNIZED"
 
-    for status in status_list:
-      if status == True:
+    for status in status_dict.keys():
+      if status_dict[status] == True:
         cnt1 += 1
       else:
         cnt2 += 1
-    print "No. of Infected nodes: ", cnt1
+    print "No. of infected nodes: ", cnt1
     print "No. of healthy nodes: ", cnt2
     f.write(str(i+1) + "," + str(cnt1) + "," + str(cnt2) + "\n")
   
-print status_list
+print status_dict

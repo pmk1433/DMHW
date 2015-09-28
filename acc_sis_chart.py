@@ -6,13 +6,13 @@ import pdb;
 
 p = 0.25 # 25% probability
 
-budget = int(sys.argv[1])
+budget = 10
 
 b = 0.2
 g = 0.2
 max_time = 500
 
-G = read_edgelist(str(sys.argv[2])) # erdos_renyi_graph(num,p)
+G = barabasi_albert_graph(100, 1)
 
 immunized = set()
 remaining = G.copy().nodes()
