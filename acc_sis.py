@@ -17,17 +17,28 @@ G = erdos_renyi_graph(num,p)
 
 immunized = set()
 remaining = G.copy().nodes()
-print "Immunizing RAND"
+print "Immunizing ACC"
 for i in xrange(budget):
-  candidate = random.choice(remaining)
+  #print "\n\n\nBefore the removal: " + str(G.nodes()), remaining
+  candidate_initial = random.choice(remaining)
 
+  neighbors = []
+  for n in all_neighbors(G,candidate_initial):
+    if n in remaining:
+      neighbors.append(n)
+  if len(neighbors) > 0:
+    candidate = random.choice(neighbors)
+
+  #print "\nImmediate before the removal: " + str(G.nodes()), remaining
+  #print "\nRemoving: " + str(candidate)
   if candidate in G.nodes(): G.remove_node(candidate)
   if candidate in remaining:     remaining.remove(candidate)
+  #print "After the removal: " + str(G.nodes()), remaining
   immunized.add(candidate)
 
 print "Immunized: ", immunized
 
-print "Done RAND", "\nRAND Done"
+print "Done ACC", "\nRAND ACC"
 
 N = G.nodes()
 status_list = [True] * num # Initally all nodes are considered infected.
@@ -35,6 +46,7 @@ status_list = [True] * num # Initally all nodes are considered infected.
 for imm in immunized:
   status_list[imm] = 'IMMUNE' # Immunized nodes cannot become infected
 
+print "Status: ", status_list
 
 for i in xrange(max_time):
   cnt1 = 0
@@ -44,6 +56,7 @@ for i in xrange(max_time):
 
     # For infected nodes, recover with
     # probability gamma
+    #pdb.set_trace()
     if status_list[node] == True:
       if random.random() <= g:
         status_list[node] = False

@@ -3,14 +3,14 @@ import random
 import sys
 import pdb;
 
-n = 20 # 10 nodes
+n = 100 # 100 nodes
 
-p = 0.5 # 20 edges
+p = 0.5 # 25% probability
 
 
-b = 0.05
-g = 0.10
-max_time = 50
+b = 0.2
+g = 0.2
+max_time = 500
 
 G = erdos_renyi_graph(n,p)
 
